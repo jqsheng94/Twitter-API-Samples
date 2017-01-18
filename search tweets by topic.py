@@ -23,4 +23,4 @@ auth = OAuthHandler(ckey, csecret)
 auth.set_access_token(atoken, asecret)
 
 twitterStream = Stream(auth, listener())
-twitterStream.filter(track=["election"])
+twitterStream.filter(track=["election"]) #track can be change to any topic
