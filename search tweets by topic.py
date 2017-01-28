@@ -3,11 +3,13 @@ from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 import json
 
-ckey = "XXX"
-csecret = "XXXX"
-atoken = "XXXXXX"
-asecret = "XXXXXXX"
-
+CLIENT_SECRETS_FILE = "client_secret.json"
+with open(CLIENT_SECRETS_FILE) as json_data:
+    d = json.load(json_data)
+    ckey = d['ckey']
+    csecret = d['csecret']
+    atoken = d['atoken']
+    asecret = d['asecret']
 
 class listener(StreamListener):
     def on_data(self, data):
