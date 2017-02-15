@@ -14,7 +14,7 @@ with open(CLIENT_SECRETS_FILE) as json_data:
 
 oauth = OAuth(atoken, asecret, ckey, csecret)
 t = Twitter(auth=oauth)
-query = t.search.tweets(q='%23Cat')  # %23 is URL encoded form of #
+query = t.search.tweets(screen_name='realdonaldtrump')  # %23 is URL encoded form of #
 
 for s in query['statuses']:
     print(s['created_at'], s['text'], '\n')
