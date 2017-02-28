@@ -41,16 +41,15 @@ def getLocationTweets(location):
     twitterStream.filter(track=['trump'], locations= location)
 
 NewYort =  getLocationTweets ([-74,40,-73,41])
-print(len(NewYort))
-# LosAngeles
-# Chicago
-# Brooklyn
-# Phoenix
-# SanDiego
-# SanFrancisco =  getLocationTweets([-122.75,36.8,-121.75,37.8])
-# Austin
-# Detroit
-# Boston
+LosAngeles = getLocationTweets ([-118,34])
+Chicago =  getLocationTweets ([-87,41])
+Seattle = getLocationTweets ([-112,47])
+Phoenix = getLocationTweets ([-112,33])
+SanDiego = getLocationTweets ([-117,32])
+SanFrancisco =  getLocationTweets([-122.75,36.8,-121.75,37.8])
+Austin = getLocationTweets ([-97,30])
+Detroit = getLocationTweets ([-83,42])
+Boston = getLocationTweets ([-71,42])
 
 
 
