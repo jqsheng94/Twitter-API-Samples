@@ -4,6 +4,8 @@ import requests
 import json
 import twitter
 from watson_developer_cloud import PersonalityInsightsV2 as PersonalityInsights
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm, matplotlib.font_manager
 
 
 CLIENT_SECRETS_FILE = "client_secret.json"
@@ -54,30 +56,40 @@ def flatten(orig):
     return data
 
 
-def compare(dict1, dict2):
-    compared_data = {}
-    for keys in dict1:
-        if dict1[keys] != dict2[keys]:
-            compared_data[keys] = abs(dict1[keys] - dict2[keys])
-    return compared_data
 
-
-user_handle = "@billclinton"
+user_handle = "@HillaryClinton"
 celebrity_handle = "@realDonaldTrump"
 
 user_result = analyze(user_handle)
 celebrity_result = analyze(celebrity_handle)
 user = flatten(user_result)
 celebrity = flatten(celebrity_result)
-compared_results = compare(user, celebrity)
-sorted_result = sorted(compared_results.items(), key=operator.itemgetter(1))
 
 
-for keys, value in sorted_result:
-    print(keys),
-    print(user[keys]),
-    print('->'),
-    print(celebrity[keys]),
-    print('->'),
-    print(compared_results[keys])
 
+def gbplot_pie(user, title, cm_name='Pastel1', autopct='%1.1f%%', labeldistance=1.05, shadow=True, startangle=90, edgecolor='w', width=8, height=8, grouping_threshold=None, grouping_label=None):  # what the label the grouped wedge
+    fractions = [i for i in user.values()]
+    labels = [i for i in user.keys()]
+    if not grouping_threshold == None:
+        if grouping_label == None:
+            grouping_label = 'Others'
+        row_mask = fractions > grouping_threshold
+        meets_threshold = fractions[row_mask]
+        all_others = pd.Series(fractions[~row_mask].sum())
+        all_others.index = [grouping_label]
+        fractions = meets_threshold.append(all_others)
+        labels = fractions.index
+    color_map = cm.get_cmap(cm_name)
+    num_of_colors = len(labels)
+    colors = color_map([float(x /num_of_colors) for x in range(num_of_colors)])
+    fig, ax = plt.subplots(figsize=[width, height])
+    plt.title(title)
+    wedges = ax.pie(fractions, labels=labels, labeldistance=labeldistance, autopct=autopct, colors=colors, shadow=shadow, startangle=startangle)
+    for wedge in wedges[0]:
+        wedge.set_edgecolor(edgecolor)
+    plt.savefig("./Output/" + title + ".png")
+    plt.close('all')
+
+
+gbplot_pie(user, user_handle)
+gbplot_pie(celebrity, celebrity_handle)
