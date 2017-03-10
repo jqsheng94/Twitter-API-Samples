@@ -10,7 +10,6 @@ import twitter
 import json
 import re
 import matplotlib
-matplotlib.style.use('ggplot')
 import sys
 sys.path.append('./Alchemy')  # path to alchemyapi_python's folder to make the import work
 from alchemyapi import AlchemyAPI
@@ -48,8 +47,8 @@ def findTweetsStats(username):
         response = alchemyapi.sentiment('html', text)
         if response['status'] == 'OK':
             response = json.dumps(response, indent=4)
-            if 'score' in response['docSentiment']:
-                score = response['docSentiment']['score']
+            if "score" in response['docSentiment']:
+                score = float(response['docSentiment']['score'])
             else:
                 score = 0
         else:
